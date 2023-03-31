@@ -1,3 +1,13 @@
+# Table of Contents
+
+* [Introduction](#introduction)
+    * [Features](#features)
+* [Installation](#installation)
+* [Usage](#usage)
+    * [GitHub Actions YAML file generation](#github-actions-yaml-file-generation)
+        * [Command](#command)
+        * [Parameters](#parameters)
+
 # Introduction
 
 This is repo contains codes for CLI app that is built to help ease workload of cyblerand developers. It is built using
@@ -30,7 +40,7 @@ Run the following command to generate a GitHub Actions YAML file pre-configured 
 ```
 
 - Two files will be generated in the directory where the command is run.
-- Place the two files in the .github/workflows directory of the project.
+- Place the two files in the `.github/workflows` directory of the project.
 
 ### Parameters
 

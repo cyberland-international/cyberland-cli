@@ -20,6 +20,8 @@ go-lang with Cobra framework.
 # Installation
 
 - Download the latest release from GitHub releases. Right side of this page.
+    - For Windows, download the `cyberland-cli.exe` file
+    - For Linux/Unix, download the `cyberland-cli` file
 - Save it to a directory of your choice
 - (**Only for Linux/Unix**) Run the following command to make the file executable
 

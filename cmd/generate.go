@@ -17,7 +17,6 @@ import (
 var (
 	useCaseNumber    int
 	projectName      string
-	templateFilePath string
 	TemplateFs       embed.FS
 	renderedTemplate bytes.Buffer
 )
@@ -31,13 +30,12 @@ var generateCmd = &cobra.Command{
 		fmt.Println("Use case number: ", useCaseNumber)
 		fmt.Println("Project name: ", projectName)
 
-		// Craft the template file path and name
-		templateFilePath = fmt.Sprintf("templates/use_case_%d_deploy.yaml", useCaseNumber)
+		// Craft the template file name and path
 		templateFileName := fmt.Sprintf("use_case_%d_deploy.yaml", useCaseNumber)
+		templateFilePath := fmt.Sprintf("templates/%s", templateFileName)
 
 		// Reads the template file from the embedded file system
 		tplFile, err := TemplateFs.ReadFile(templateFilePath)
-		//fmt.Println(string(tplFile))
 
 		// Prepare context (data) for the template
 		type TemplateData struct {
@@ -69,8 +67,25 @@ var generateCmd = &cobra.Command{
 			panic(err)
 		}
 
-		// Print the location of the rendered template file
-		fmt.Printf("Rendered template file: %s", renderedTemplateFilePath)
+		// Craft the merge_back file name and path
+		mergeBackFileName := fmt.Sprintf("use_case_%d_merge_back.yaml", useCaseNumber)
+		mergeBackFilePath := fmt.Sprintf("templates/%s", mergeBackFileName)
+
+		// Read the merge_back file from the embedded file system
+		mergeBackFile, err := TemplateFs.ReadFile(mergeBackFilePath)
+
+		// Write the merge_back file to a file
+		mergeBackTemplateFilePath := fmt.Sprintf("%s/%s", wd, mergeBackFileName)
+		if err := os.WriteFile(
+			mergeBackTemplateFilePath,
+			mergeBackFile,
+			0644); err != nil {
+			panic(err)
+		}
+
+		// Print the location of the template files
+		fmt.Printf("Rendered template file: %s\n", renderedTemplateFilePath)
+		fmt.Printf("Merge back file: %s\n", mergeBackTemplateFilePath)
 
 	},
 }

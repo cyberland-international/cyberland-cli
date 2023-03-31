@@ -1,0 +1,51 @@
+name: Merge production branch back to staging and test branch. Merge staging branch back to test branch
+
+on:
+  push:
+    branches:
+      - production
+      - staging
+
+jobs:
+  merge-production-branch-back-to-staging-and-test:
+    if: github.ref == 'refs/heads/production'
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: "Setup Git config"
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: "Merge production branch to staging branch"
+        run: |
+          git checkout staging
+          git merge production --no-edit
+          git push
+          git checkout test
+          git merge production --no-edit
+          git push 
+
+  merge-staging-branch-back-to-test:
+    if: github.ref == 'refs/heads/staging'
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: "Setup Git config"
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: "Merge production branch to staging branch"
+        run: |
+          git checkout test
+          git merge staging --no-edit
+          git push 
